@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+from quiz import QuizApp
 from admin import open_admin_window
 import db
 
@@ -18,8 +19,8 @@ def check_password():
         messagebox.showerror("Access Denied", "Incorrect password")
 
 def start_quiz():
-    root.destroy()
-    open_quiz_window()
+    root.withdraw()
+    QuizApp(tk.Toplevel())
 
 # Setup database
 db.create_tables()

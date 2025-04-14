@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import db
 
-def open_admin_window():
+def open_admin_window(parent_root=None):
     admin = tk.Toplevel()
     admin.title("Admin Panel")
 
@@ -141,6 +141,7 @@ def open_admin_window():
 
     ttk.Button(admin, text="Load Questions", command=lambda: load_questions(course_var.get())).grid(row=1, column=2, padx=10)
     ttk.Button(admin, text="Add Question", command=open_add_question_window).grid(row=2, column=0, columnspan=3, pady=5)
+    ttk.Button(admin, text="Back", command=lambda: go_back(admin, parent_root)).grid(row=0, column=2, pady=5, padx=5, sticky="ne")
 
     frame = ttk.Frame(admin)
     frame.grid(row=3, column=0, columnspan=3, padx=10, pady=10)
@@ -155,3 +156,8 @@ def open_admin_window():
 
     canvas.grid(row=0, column=0)
     scrollbar.grid(row=0, column=1, sticky="ns")
+
+def go_back(current_window, parent_window):
+    current_window.destroy()
+    if parent_window:
+        parent_window.deiconify()
