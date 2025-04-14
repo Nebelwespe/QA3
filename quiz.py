@@ -33,7 +33,7 @@ class QuizApp:
         self.course_dropdown.grid(row=1, column=0, columnspan=2, pady=5)
 
         ttk.Button(self.root, text="Start Quiz", command=self.start_quiz).grid(row=2, column=0, columnspan=2, pady=10)
-        ttk.Button(self.root, text="Back", command=self.go_back).grid(row=3, column=0, columnspan=2, pady=5)
+        ttk.Button(self.root, text="Exit", command=self.exit_quiz).grid(row=3, column=0, columnspan=2, pady=5)
 
     def start_quiz(self):
         label = self.course_var.get()
@@ -44,11 +44,12 @@ class QuizApp:
         table_name = [k for k, v in db.courses.items() if v == label][0]
         all_questions = db.get_all_questions(table_name)
 
-        if len(all_questions) < 10:
-            messagebox.showinfo("Not Enough Questions", "There must be at least 10 questions to start the quiz.")
+        if not all_questions:
+            messagebox.showinfo("No Questions", "There are no questions for this course yet.")
             return
 
-        self.questions = random.sample(all_questions, 10)
+        self.questions = all_questions.copy()
+        random.shuffle(self.questions)
         self.total_questions = len(self.questions)
         self.current_question = 0
         self.score = 0
@@ -60,7 +61,7 @@ class QuizApp:
 
         question = self.questions[self.current_question]
 
-        ttk.Label(self.root, text=f"Question {self.current_question + 1}", font=("Arial", 12, "bold")).grid(row=0, column=0, columnspan=2, pady=10)
+        ttk.Label(self.root, text=f"Question {self.current_question + 1} of {self.total_questions}", font=("Arial", 12, "bold")).grid(row=0, column=0, columnspan=2, pady=10)
         ttk.Label(self.root, text=question[1], wraplength=500).grid(row=1, column=0, columnspan=2, pady=5)
 
         self.answer_var = tk.StringVar()
@@ -71,7 +72,7 @@ class QuizApp:
             ttk.Radiobutton(self.root, text=opt, variable=self.answer_var, value=opt).grid(row=2+i, column=0, columnspan=2, sticky="w", padx=20, pady=2)
 
         ttk.Button(self.root, text="Submit Answer", command=self.check_answer).grid(row=7, column=0, columnspan=2, pady=5)
-        ttk.Button(self.root, text="Back to Course Select", command=self.setup_course_selection).grid(row=8, column=0, columnspan=2, pady=5)
+        ttk.Button(self.root, text="Exit", command=self.exit_quiz).grid(row=8, column=0, columnspan=2, pady=5)
 
     def check_answer(self):
         if not self.answer_var.get():
@@ -101,12 +102,7 @@ class QuizApp:
         ttk.Label(self.root, text="Quiz Completed!", font=("Arial", 16, "bold")).grid(row=0, column=0, columnspan=2, pady=10)
         ttk.Label(self.root, text=f"Your score: {self.score} out of {self.total_questions}").grid(row=1, column=0, columnspan=2, pady=10)
         ttk.Button(self.root, text="Take Another Quiz", command=self.setup_course_selection).grid(row=2, column=0, columnspan=2, pady=5)
-        ttk.Button(self.root, text="Back to Main Menu", command=self.return_to_main).grid(row=3, column=0, columnspan=2, pady=5)
+        ttk.Button(self.root, text="Exit", command=self.exit_quiz).grid(row=3, column=0, columnspan=2, pady=5)
 
-    def return_to_main(self):
+    def exit_quiz(self):
         self.root.destroy()
-        if self.parent_root:
-            self.parent_root.deiconify()
-
-    def go_back(self):
-        self.return_to_main()

@@ -50,6 +50,18 @@ def get_all_questions(table):
     conn.close()
     return rows
 
+def is_table_populated():
+    conn = connect_db()
+    cursor = conn.cursor()
+    for table in courses:
+        cursor.execute(f"SELECT COUNT(*) FROM {table}")
+        count = cursor.fetchone()[0]
+        if count < 10:
+            conn.close()
+            return False
+    conn.close()
+    return True
+
 def preload_sample_questions():
     """Only run this once to populate your DB with sample questions."""
     all_questions = {
@@ -115,12 +127,30 @@ def preload_sample_questions():
         ]
     }
 
-    for table, questions in all_questions.items():
+
+for table, questions in all_questions.items():
         for q in questions:
-            insert_question(table, q[0], q[1], q[2])
+            # Only insert if question doesn't already exist
+            conn = connect_db()
+            cursor = conn.cursor()
+            cursor.execute(f"SELECT COUNT(*) FROM {table} WHERE question = ?", (q[0],))
+            exists = cursor.fetchone()[0]
+            conn.close()
+            if exists == 0:
+                insert_question(table, q[0], q[1], q[2])
+
+def update_question(table, question_id, question, options, correct):
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute(f"""
+        UPDATE {table} SET question=?, option1=?, option2=?, option3=?, option4=?, correct=? WHERE id=?
+    """, (question, *options, correct, question_id))
+    conn.commit()
+    conn.close()
 
 # Always create tables when module is used
 create_tables()
 
-# Run this ONCE manually to preload sample data:
-preload_sample_questions()
+# Safely preload questions only if tables aren't populated
+if not is_table_populated():
+    preload_sample_questions()
