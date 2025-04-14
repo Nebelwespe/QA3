@@ -1,10 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
+from admin import open_admin_window
 import db
-
-# Placeholder functions (we'll implement these next)
-def open_admin_window():
-    messagebox.showinfo("Admin Panel", "Admin panel would open here.")
 
 def open_quiz_window():
     messagebox.showinfo("Quiz", "Quiz interface would start here.")
@@ -16,6 +13,7 @@ def check_password():
     if entered == PASSWORD:
         root.destroy()
         open_admin_window()
+
     else:
         messagebox.showerror("Access Denied", "Incorrect password")
 
