@@ -245,11 +245,12 @@ B. Adds text
 C. Crops a photo  
 D. Adds filters  
 
-10. Which file format is best for web?  
-A. .bmp  
+10. Which file format has the best compression?  
+A. .svg  
 B. .png  
 C. .psd  
 D. .jpg (CORRECT ANSWER)  
+
 
 
 # DS 3620 (Excel)

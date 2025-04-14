@@ -12,9 +12,8 @@ PASSWORD = "password1"
 def check_password():
     entered = password_entry.get()
     if entered == PASSWORD:
-        root.withdraw() #.destroy leaves a phantom window when switching over to different windows
-        open_admin_window()
-
+        root.withdraw()  # hide it, don't destroy it
+        open_admin_window(parent_root=root)
     else:
         messagebox.showerror("Access Denied", "Incorrect password")
 

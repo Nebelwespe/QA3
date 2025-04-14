@@ -1,4 +1,4 @@
-Lauren Scott's Schedule
+Lauren's Schedule
 
 T00340229
 

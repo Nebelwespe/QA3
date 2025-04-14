@@ -99,7 +99,7 @@ def preload_sample_questions():
             ("What does Opacity control?", ["Color", "Brightness", "Transparency", "Size"], "Transparency"),
             ("Which tool removes blemishes?", ["Lasso Tool", "Patch Tool", "Spot Healing Brush", "Pen Tool"], "Spot Healing Brush"),
             ("What does the Clone Stamp Tool do?", ["Duplicates parts of an image", "Adds text", "Crops a photo", "Adds filters"], "Duplicates parts of an image"),
-            ("Which file format is best for web?", [".bmp", ".png", ".psd", ".jpg"], ".jpg")
+            ("Which file format has the best compression?", [".svg", ".png", ".psd", ".jpg"], ".jpg")
         ],
         "DS_3620": [
             ("What symbol starts a formula in Excel?", ["!", "#", "=", "$"], "="),
