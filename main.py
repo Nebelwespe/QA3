@@ -11,7 +11,7 @@ PASSWORD = "password1"
 def check_password():
     entered = password_entry.get()
     if entered == PASSWORD:
-        root.destroy()
+        root.withdraw() #.destroy leaves a phantom window when switching over to different windows
         open_admin_window()
 
     else:
