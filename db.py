@@ -41,7 +41,17 @@ def insert_question(table, question, options, correct):
     conn.commit()
     conn.close()
 
-def preload_questions():
+def get_all_questions(table):
+    """Return all questions for a specific course table."""
+    conn = connect_db()
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT * FROM {table}")
+    rows = cursor.fetchall()
+    conn.close()
+    return rows
+
+def preload_sample_questions():
+    """Only run this once to populate your DB with sample questions."""
     all_questions = {
         "DS_3850": [
             ("What does the `len()` function do in Python?", ["Adds two numbers", "Returns the length of an object", "Creates a new list", "Converts a string to an integer"], "Returns the length of an object"),
@@ -109,5 +119,8 @@ def preload_questions():
         for q in questions:
             insert_question(table, q[0], q[1], q[2])
 
+# Always create tables when module is used
 create_tables()
-preload_questions()
+
+# Run this ONCE manually to preload sample data:
+preload_sample_questions()
